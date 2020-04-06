@@ -10,9 +10,11 @@
 <body>
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    include 'cal.php';
     $num1 = $_POST["num1"];
     $num2 = $_POST["num2"];
     $cal = $_POST["cal"];
+    $result = new Calculator();
     switch ($cal) {
         case "+":
             echo "<h1>Result:</h1> $num1 + $num2 = " . ($num1 + $num2);
@@ -24,11 +26,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "<h1>Result:</h1> $num1 x $num2 = " . ($num1 * $num2);
             break;
         case "/":
-            if ($num2 != 0) {
-                echo "<h1>Result:</h1> $num1 : $num2 = " . ($num1 / $num2);
-            } else {
-                echo "<h1>No Result</h1>";
+            try {
+                echo $result->division($num1, $num2);
             }
+            catch (Exception $exception){
+                echo $exception->getMessage();
+            }
+//            if ($num2 != 0) {
+//                echo "<h1>Result:</h1> $num1 : $num2 = " . ($num1 / $num2);
+//            } else {
+//                echo "<h1>No Result</h1>";
+//            }
     }
 }
 ?>
